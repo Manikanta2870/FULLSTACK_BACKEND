@@ -1,5 +1,8 @@
 package com.klef.fsad.electionmonitoringsystem.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,25 +12,61 @@ import com.klef.fsad.electionmonitoringsystem.repository.ElectionObserverReposit
 @Service
 public class ElectionObserverServiceImpl implements ElectionObserverService
 {
-	@Autowired
-	private ElectionObserverRepository electionObserverRepository;
+    @Autowired
+    private ElectionObserverRepository electionObserverRepository;
 
-	@Override
-	public String registerElectionObserver(ElectionObserver electionObserver)
-	{
-		if (electionObserverRepository.existsById(electionObserver.getEmail()))
-		{
-			return "Election observer already exists";
-		}
+    @Override
+    public String registerElectionObserver(ElectionObserver electionObserver)
+    {
+        if (electionObserverRepository.existsById(electionObserver.getEmail()))
+        {
+            return "Election observer already exists";
+        }
+        electionObserverRepository.save(electionObserver);
+        return "Election observer registered successfully";
+    }
 
-		electionObserverRepository.save(electionObserver);
-		return "Election observer registered successfully";
-	}
+    @Override
+    public ElectionObserver verifyElectionObserverLogin(String email, String password)
+    {
+        return electionObserverRepository.findByEmailAndPassword(email, password);
+    }
 
-	@Override
-	public ElectionObserver verifyElectionObserverLogin(String email, String password)
-	{
-		return electionObserverRepository.findByEmailAndPassword(email, password);
-	}
+    @Override
+    public List<ElectionObserver> getAllElectionObservers()
+    {
+        return electionObserverRepository.findAll();
+    }
 
+    @Override
+    public ElectionObserver getElectionObserverByEmail(String email)
+    {
+        Optional<ElectionObserver> optional = electionObserverRepository.findById(email);
+        return optional.orElse(null);
+    }
+
+    @Override
+    public String deleteElectionObserver(String email)
+    {
+        if (!electionObserverRepository.existsById(email))
+        {
+            return "Election observer not found";
+        }
+        electionObserverRepository.deleteById(email);
+        return "Election observer deleted successfully";
+    }
+
+    @Override
+    public String assignStation(String email, String assignedStation)
+    {
+        Optional<ElectionObserver> optional = electionObserverRepository.findById(email);
+        if (optional.isEmpty())
+        {
+            return "Election observer not found";
+        }
+        ElectionObserver observer = optional.get();
+        observer.setAssignedStation(assignedStation);
+        electionObserverRepository.save(observer);
+        return "Station assigned successfully";
+    }
 }

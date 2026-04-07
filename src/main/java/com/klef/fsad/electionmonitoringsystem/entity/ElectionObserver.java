@@ -1,13 +1,13 @@
 package com.klef.fsad.electionmonitoringsystem.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "electionobserver_table")
-public class ElectionObserver 
+public class ElectionObserver
 {
     @Id
     @Column(length = 100)
@@ -15,6 +15,21 @@ public class ElectionObserver
 
     @Column(length = 50, nullable = false)
     private String password;
+
+    @Column(length = 150)
+    private String observerName;
+
+    @Column(length = 20)
+    private String phone;
+
+    @Column(length = 100)
+    private String district;
+
+    @Column(length = 100)
+    private String assignedStation;
+
+    @Column(length = 20)
+    private String status;
 
     public String getEmail() {
         return email;
@@ -32,8 +47,48 @@ public class ElectionObserver
         this.password = password;
     }
 
+    public String getObserverName() {
+        return observerName;
+    }
+
+    public void setObserverName(String observerName) {
+        this.observerName = observerName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getAssignedStation() {
+        return assignedStation;
+    }
+
+    public void setAssignedStation(String assignedStation) {
+        this.assignedStation = assignedStation;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "ElectionObserver [email=" + email + ", password=" + password + "]";
+        return "ElectionObserver [email=" + email + ", observerName=" + observerName + "]";
     }
 }
