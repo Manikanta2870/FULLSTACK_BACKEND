@@ -1,9 +1,9 @@
-FROM eclipse-temurin:17-jdk
+FROM maven:3.9.9-eclipse-temurin-17
 
 WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY . .
 
-EXPOSE 2005
+RUN mvn clean package -DskipTests
 
-ENTRYPOINT ["java","-jar","app.jar"]
+CMD ["java","-jar","target/SDP_07_ElectionMonitoringSystem-0.0.1-SNAPSHOT.jar"]
